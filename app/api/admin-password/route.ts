@@ -1,0 +1,2 @@
+import {changeAdminPassword,isAdminAuthenticated} from "../../admin-auth";
+export async function PUT(req:Request){if(!await isAdminAuthenticated())return Response.json({error:"Session expirée"},{status:401});const {password,confirmation}=await req.json();if(String(password||"").length<8)return Response.json({error:"Le mot de passe doit contenir au moins 8 caractères"},{status:400});if(password!==confirmation)return Response.json({error:"Les deux mots de passe ne correspondent pas"},{status:400});await changeAdminPassword(password);return Response.json({ok:true})}
